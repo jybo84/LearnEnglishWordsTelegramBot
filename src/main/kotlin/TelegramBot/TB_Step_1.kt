@@ -6,16 +6,20 @@ fun main() {
 
     val text = File("text.txt")
     text.createNewFile()
-    text.writeText("hello ")
-    text.appendText("Привет ")
+    text.writeText("hello привет")
+    text.appendText("\n")
 
-    text.appendText("\ndog ")
-    text.appendText("собака ")
+    text.appendText("dog собака ")
+    text.appendText("\n")
 
-    text.appendText("\ncat ")
-    text.appendText("кошка ")
+    text.appendText("cat кошка")
+
 
     println(text.readText())
     println()
     println(text.readLines())
+
+    val lines: List<String> = text.readLines()
+    for(el in lines)
+        println(el)
 }
