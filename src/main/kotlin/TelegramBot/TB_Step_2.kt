@@ -13,9 +13,10 @@ fun main() {
     val listWord = newWord.readLines()
     for (el in listWord) {
         val element = el.split("|")
-        val word = Word(element[0], element[1], 3)
-
+        val word = Word(element[0], element[1])
         book.add(word)
+        if (book.add(word))
+        word.correctAnswersCount++
     }
     println(book.joinToString("\n"))
 }
