@@ -6,9 +6,9 @@ fun main() {
 
     val text = File("text.txt")
     text.createNewFile()
-    text.writeText("hello | привет | 0")
-    text.appendText("\ndog | собака | 0")
-    text.appendText("\ncat | кошка | 0")
+    text.writeText("hello |привет |0")
+    text.appendText("\ndog |собака |0")
+    text.appendText("\ncat |кошка |0")
 
 
     val tempList = mutableListOf<Word>()
