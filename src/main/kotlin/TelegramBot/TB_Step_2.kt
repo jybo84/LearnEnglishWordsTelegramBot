@@ -4,25 +4,24 @@ import java.io.File
 
 fun main() {
 
-    val book = mutableListOf<Word>()
-    val newWord = File("words.txt")
-    newWord.createNewFile()
-    newWord.writeText("door| дверь |")
-    newWord.appendText("\nwall| стена|")
+    val text = File("text.txt")
+    text.createNewFile()
+    text.writeText("hello | привет")
+    text.appendText("\ndog | собака")
+    text.appendText("\ncat | кошка")
 
-    val listWord = newWord.readLines()
-    for (el in listWord) {
-        val element = el.split("|")
-        val word = Word(element[0], element[1])
-        book.add(word)
-        if (book.add(word))
-        word.correctAnswersCount++
+
+    val tempList = mutableListOf<Word>()
+
+    val lines = text.readLines()
+    for (el in lines) {
+        val splitString = el.split(" |")
+        val word = Word(splitString[0], splitString[1])
+        tempList.add(word)
     }
-    println(book.joinToString("\n"))
+
+   val dictionary =  tempList.groupingBy { it }.eachCount()
+   dictionary.forEach { println(it)  }
 }
 
-data class Word(
-    val englishWord: String,
-    val russianWord: String,
-    var correctAnswersCount: Int = 0
-)
+data class Word(val engWord: String, val rusWord: String, val correctAnswersCount: Int = 0)
