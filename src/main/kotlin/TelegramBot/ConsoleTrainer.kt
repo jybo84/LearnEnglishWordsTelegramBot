@@ -10,7 +10,6 @@ fun main() {
     text.appendText("\ndog |собака |0")
     text.appendText("\ncat |кошка |0")
 
-
     val dictionary = mutableListOf<Word>()
 
     val lines = text.readLines()
