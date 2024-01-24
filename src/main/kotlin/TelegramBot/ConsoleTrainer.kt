@@ -11,17 +11,15 @@ fun main() {
     text.appendText("\ncat |кошка |0")
 
 
-    val tempList = mutableListOf<Word>()
+    val dictionary = mutableListOf<Word>()
 
     val lines = text.readLines()
     for (el in lines) {
         val splitString = el.split(" |")
-        val word = Word( splitString[0], splitString[1], correctAnswersCount = 2)
-        tempList.add(word)
+        val word = Word(splitString[0].trim(), splitString[1].trim(), correctAnswersCount = 2)
+        dictionary.add(word)
     }
-
-   val dictionary =  tempList.groupingBy { it }.eachCount()
-   dictionary.forEach { println(it)  }
+    dictionary.forEach { println(it) }
 }
 
 data class Word(val engWord: String, val rusWord: String?, val correctAnswersCount: Int = 0)
