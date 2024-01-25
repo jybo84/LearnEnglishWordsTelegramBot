@@ -15,7 +15,7 @@ fun main() {
     val lines = text.readLines()
     for (el in lines) {
         val splitString = el.split(" |")
-        val word = Word(splitString[0].trim(), splitString[1].trim(), correctAnswersCount = 2)
+        val word = Word(splitString[0].trim(), splitString[1].trim(), correctAnswersCount = 0)
         dictionary.add(word)
     }
     dictionary.forEach { println(it) }
