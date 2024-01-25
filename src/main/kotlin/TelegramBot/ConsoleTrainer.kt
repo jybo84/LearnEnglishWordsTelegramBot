@@ -7,8 +7,7 @@ import kotlin.math.roundToInt
 const val LIMIT = 3
 fun main() {
 
-    val text = File("text.txt")
-    text.createNewFile()
+    val text = File("words.txt")
     text.writeText("hello |привет |5")
     text.appendText("\ndog |собака |5")
     text.appendText("\ncat |кошка |2")
