@@ -3,13 +3,15 @@ package TelegramBot
 import java.io.File
 import kotlin.math.roundToInt
 
+
+const val LIMIT = 3
 fun main() {
 
     val text = File("text.txt")
     text.createNewFile()
     text.writeText("hello |привет |5")
     text.appendText("\ndog |собака |5")
-    text.appendText("\ncat |кошка |5")
+    text.appendText("\ncat |кошка |2")
 
     val dictionary = mutableListOf<Word>()
 
@@ -36,10 +38,9 @@ fun main() {
         when (userNumber) {
             1 -> TODO()
             2 -> {
-                val learnWord = dictionary.filter { it.correctAnswersCount >= 3 }.size
+                val learnWord = dictionary.filter { it.correctAnswersCount >= LIMIT }.size
                 println("$learnWord из ${dictionary.size} | ${((learnWord.toFloat() / dictionary.size) * 100).roundToInt()}%")
             }
-
             0 -> break
             else -> println("Вы ввели некорекное число")
         }
