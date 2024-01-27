@@ -34,9 +34,9 @@ fun main() {
                         println("Выучены все слова")
                     else {
                         do {
-                            println("Учим дальше?  если хотите завершить программу нажмите- P")
+                            println("Учим дальше?  если хотите завершить программу нажмите- Й")
                             val user = readln()
-                            if (user == "P")
+                            if (user.equals("Й", ignoreCase = true))
                                 return
                             val listOriginal = remainsWord.map { it.engWord }
                             println((listOriginal.random().uppercase()))
