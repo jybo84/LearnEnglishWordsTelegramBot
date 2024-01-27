@@ -35,12 +35,8 @@ fun main() {
                     else {
                         val listOriginal = remainsWord.map { it.engWord }
                         val listTranslate = remainsWord.map { it.rusWord }
-                        Thread.sleep(500)
                         println((listOriginal.random().uppercase()))
-                        Thread.sleep(500)
                         println("Выберите вариант ответа из списка: ")
-                        Thread.sleep(500)
-
                         val listTotalWord = listTranslate.shuffled().take(4)
                         listTotalWord.forEachIndexed { ind, el -> println("${ind + 1} $el") }
                     }
