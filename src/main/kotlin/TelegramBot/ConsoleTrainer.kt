@@ -39,7 +39,7 @@ fun main() {
                             if (user == "P")
                                 return
                             val listOriginal = remainsWord.map { it.engWord }
-                            val listTranslate = remainsWord.map { it.rusWord } // TODO что сделать
+                            val listTranslate = remainsWord.map { it.rusWord } // TODO что то сделать
                             println((listOriginal.random().uppercase()))
                             println("Выберите вариант ответа из списка: ")
                             val listTotalWord = listTranslate.shuffled().take(4)
