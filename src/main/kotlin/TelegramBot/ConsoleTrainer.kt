@@ -33,12 +33,18 @@ fun main() {
                     if (remainsWord.isEmpty())
                         println("Выучены все слова")
                     else {
-                        val listOriginal = remainsWord.map { it.engWord }
-                        val listTranslate = remainsWord.map { it.rusWord }
-                        println((listOriginal.random().uppercase()))
-                        println("Выберите вариант ответа из списка: ")
-                        val listTotalWord = listTranslate.shuffled().take(4)
-                        listTotalWord.forEachIndexed { ind, el -> println("${ind + 1} $el") }
+                        do {
+                            println("Учим дальше?  если хотите завершить программу нажмите- P")
+                            val user = readln()
+                            if (user == "P")
+                                return
+                            val listOriginal = remainsWord.map { it.engWord }
+                            val listTranslate = remainsWord.map { it.rusWord } // TODO что сделать
+                            println((listOriginal.random().uppercase()))
+                            println("Выберите вариант ответа из списка: ")
+                            val listTotalWord = listTranslate.shuffled().take(4)
+                            listTotalWord.forEachIndexed { ind, el -> println("${ind + 1} $el") }
+                        } while (user != "P")
                     }
                 }
 
