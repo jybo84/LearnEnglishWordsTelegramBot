@@ -25,36 +25,37 @@ fun main() {
     )
     while (true) {
         println("Выберите пункт меню")
-        val userNumber = readln().toInt()
+        try {
+            val userNumber = readln().toInt()
+            when (userNumber) {
+                1 -> {
+                    val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT }
+                    if (remainsWord.isEmpty())
+                        println("Выучены все слова")
+                    else {
+                        val listOriginal = remainsWord.map { it.engWord }
+                        val listTranslate = remainsWord.map { it.rusWord }
+                        Thread.sleep(500)
+                        println((listOriginal.random().uppercase()))
+                        Thread.sleep(500)
+                        println("Выберите вариант ответа из списка: ")
+                        Thread.sleep(500)
 
-        when (userNumber) {
-            1 -> {
-                val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT }
-                if (remainsWord.isEmpty())
-                    println("Выучены все слова")
-                else {
-                    val listOriginal = remainsWord.map { it.engWord }
-                    val listTranslate = remainsWord.map { it.rusWord }
-                    Thread.sleep(500)
-                    println((listOriginal.random().uppercase()))
-                    Thread.sleep(500)
-                    println("Выберите вариант ответа из списка: ")
-                    Thread.sleep(500)
-
-                    val listTotalWord = listTranslate.shuffled().take(4)
-                    listTotalWord.forEachIndexed { ind, el -> println("${ind + 1} $el") }
+                        val listTotalWord = listTranslate.shuffled().take(4)
+                        listTotalWord.forEachIndexed { ind, el -> println("${ind + 1} $el") }
+                    }
                 }
+
+                2 -> {
+                    val learnWord = dictionary.filter { it.correctAnswersCount >= LIMIT }.size
+                    println("$learnWord из ${dictionary.size} | ${((learnWord.toFloat() / dictionary.size) * 100).roundToInt()}%")
+                }
+
+                0 -> break
+                else -> println("Вы ввели некоректное число")
             }
-
-            2 -> {
-                val learnWord = dictionary.filter { it.correctAnswersCount >= LIMIT }.size
-                println("$learnWord из ${dictionary.size} | ${((learnWord.toFloat() / dictionary.size) * 100).roundToInt()}%")
-            }
-
-            0 -> break
-
-            else -> println("Вы ввели некоректное число")
-
+        } catch (e: NumberFormatException) {
+            println("Введен неправильый формат числа")
         }
     }
 }
