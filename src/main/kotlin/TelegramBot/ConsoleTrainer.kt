@@ -7,11 +7,6 @@ const val LIMIT = 3
 fun main() {
 
     val text = File("words.txt")
-    text.writeText("hello |привет |5")
-    text.appendText("\ndog |собака |1")
-    text.appendText("\ncat |кошка |1")
-    text.appendText("\nred |красный |1")
-    text.appendText("\npen |ручка |1")
 
     val dictionary = mutableListOf<Word>()
     val lines = text.readLines()
