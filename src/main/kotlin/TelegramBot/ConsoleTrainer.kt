@@ -34,15 +34,16 @@ fun main() {
                         println("Выучены все слова")
                     else {
                         do {
-                            println("Учим дальше?  если хотите завершить программу нажмите- Й")
-                            val user = readln()
-                            if (user.equals("Й", ignoreCase = true))
-                                return
                             val listOriginal = remainsWord.map { it.engWord }
                             println((listOriginal.random().uppercase()))
                             println("Выберите вариант ответа из списка: ")
-                            remainsWord.forEachIndexed { ind, el -> println("${ind + 1}  ${el.rusWord} ") }
-                        } while (user != "P")
+                            remainsWord.forEachIndexed { ind, el ->
+                                println("${ind + 1} - ${el.rusWord} ")
+                            }
+                            println()
+                            println("0 - выйти в меню")
+                            val user = readln().toInt()
+                        } while (user != 0)
                     }
                 }
 
@@ -60,8 +61,4 @@ fun main() {
     }
 }
 
-data class Word(val engWord: String, val rusWord: String?, val correctAnswersCount: Int = 0) {
-    override fun toString(): String {
-        return "\nWord(engWord='$engWord', rusWord=$rusWord, correctAnswersCount=$correctAnswersCount)"
-    }
-}
+data class Word(val engWord: String, val rusWord: String?, val correctAnswersCount: Int = 0)
