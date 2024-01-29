@@ -26,7 +26,7 @@ fun main() {
     while (true) {
         println("Выберите пункт меню")
         try {
-            val userNumber = readln().toInt()
+            var userNumber = readln().toInt()
             when (userNumber) {
                 1 -> {
                     val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT }
@@ -34,15 +34,36 @@ fun main() {
                         println("Выучены все слова")
                     else {
                         do {
-                            val listOriginal = remainsWord.map { it.engWord }
-                            println((listOriginal.random().uppercase()))
-                            println("Выберите вариант ответа из списка: ")
                             val newListForUser = remainsWord.shuffled().take(4)
+
+                            val wordForUser = newListForUser.map { it }.random()
+                            println()
+                            println(wordForUser.engWord.uppercase())
+                            println("Выберите вариант ответа из списка: ")
                             newListForUser.forEachIndexed { index, el -> println("${index + 1} - ${el.rusWord} ") }
                             println()
                             println("0 - выйти в меню")
-                            val user = readln().toInt()
-                        } while (user != 0)
+                            val userChoice = readln().toInt()
+
+                            fun checkUserAnswer(number: Int) {
+                                if (wordForUser == newListForUser[userNumber])
+                                    println("ПРАВИЛЬНО")
+                                else println(
+                                    "НЕ ВЕРНО.  " +
+                                            "Вы выбрали ${(newListForUser[userNumber].rusWord)?.uppercase()} " +
+                                            "Правильный ответ ${(wordForUser.rusWord)?.uppercase()}"
+                                )
+                            }
+
+                            when (userChoice) {
+                                1 -> checkUserAnswer(userNumber)
+                                2 -> checkUserAnswer(userNumber)
+                                3 -> checkUserAnswer(userNumber)
+                                4 -> checkUserAnswer(userNumber)
+                                0 -> break
+                                else -> println("неправильно ввели число")
+                            }
+                        } while (userNumber != 0)
                     }
                 }
 
@@ -59,5 +80,6 @@ fun main() {
         }
     }
 }
+
 
 data class Word(val engWord: String, val rusWord: String?, val correctAnswersCount: Int = 0)
