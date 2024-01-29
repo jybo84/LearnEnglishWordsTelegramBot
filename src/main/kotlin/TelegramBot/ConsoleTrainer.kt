@@ -1,5 +1,6 @@
 package TelegramBot
 
+
 import java.io.File
 import kotlin.math.roundToInt
 
@@ -26,7 +27,7 @@ fun main() {
     while (true) {
         println("Выберите пункт меню")
         try {
-            var userNumber = readln().toInt()
+            val userNumber = readln().toInt()
             when (userNumber) {
                 1 -> {
                     val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT }
