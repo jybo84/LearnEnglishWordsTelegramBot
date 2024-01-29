@@ -64,7 +64,19 @@ fun main() {
                                 2 -> checkUserAnswer(userChoice)
                                 3 -> checkUserAnswer(userChoice)
                                 4 -> checkUserAnswer(userChoice)
-                                0 -> break
+                                0 -> {
+                                    println(
+                                        """
+            МЕНЮ:
+        1 - Учить слова
+        2 - Статистика
+        0 - Выход 
+    """.trimIndent()
+                                    )
+
+                                    break
+                                }
+
                                 else -> println("неправильно ввели число")
                             }
                         } while (userNumber != 0)
