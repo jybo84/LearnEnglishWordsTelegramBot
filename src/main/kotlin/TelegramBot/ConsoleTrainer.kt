@@ -5,16 +5,11 @@ import java.io.File
 import kotlin.math.roundToInt
 
 const val LIMIT = 3
+const val MAX_LIST_WORD_FOR_USER = 4
 fun main() {
 
     val text = File("words.txt")
     text.createNewFile()
-    text.writeText("hello |привет |1")
-    text.appendText("\nbye |пока |1")
-    text.appendText("\npen |ручка |1")
-    text.appendText("\ndog |собака |1")
-    text.appendText("\ncat |кошка |1")
-
     val dictionary = mutableListOf<Word>()
     val lines = text.readLines()
     for (el in lines) {
@@ -22,13 +17,12 @@ fun main() {
         val word = Word(splitString[0].trim(), splitString[1].trim(), splitString[2].toInt())
         dictionary.add(word)
     }
-
     while (true) {
         println(
             """
             МЕНЮ:
         1 - Учить слова
-        2 - Статистика0
+        2 - Статистика
         0 - Выход
     """.trimIndent()
         )
@@ -42,7 +36,7 @@ fun main() {
                         println("Выучены все слова")
                     else {
                         do {
-                            val newListForUser = remainsWord.shuffled().take(4)
+                            val newListForUser = remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER)
 
                             val wordForUser = newListForUser.map { it }.random()
                             println()
@@ -58,18 +52,9 @@ fun main() {
                                     println("ПРАВИЛЬНО")
                                     wordForUser.correctAnswersCount++
                                     dictionary.add(wordForUser)
-                                    //text.writeText(dictionary.toString())
 
-                                    File("words.txt").writeText(dictionary.joinToString("\n"))
+                                     File("words.txt").writeText(dictionary.joinToString("\n"))
 
-
-                                    /*
-                                   File("somefile.txt").writeText(history.entries.joinToString("\n") { "${it.key}, ${it.value}" })
-// or just use the toString() method without transform:
-                                    File("somefile.txt").writeText(x.entries.joinToString("\n"))
-    }
-    }
-                                     */
                                 } else println(
                                     "НЕ ВЕРНО.  " +
                                             "Вы выбрали ${(newListForUser[userChoice].rusWord)?.uppercase()} " +
@@ -102,19 +87,10 @@ fun main() {
             println("Введен неправильый формат числа")
         }
     }
+}
+
+data class Word(val engWord: String, val rusWord: String?, var correctAnswersCount: Int = 0) {
+    override fun toString(): String {
+        return "$engWord, $rusWord, количество повторений $correctAnswersCount"
     }
-
-
-data class Word(val engWord: String, val rusWord: String?, var correctAnswersCount: Int = 0)
-
-
-
-/*
- val text = File("words.txt")
-    text.createNewFile()
-    text.writeText("hello |привет |1")
-    text.appendText("\nbye |пока |1")
-    text.appendText("\npen |ручка |1")
-    text.appendText("\ndog |собака |1")
-    text.appendText("\ncat |кошка |1")
- */
+}

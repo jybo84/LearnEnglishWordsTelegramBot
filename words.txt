@@ -1,7 +1,6 @@
-Word(engWord=hello, rusWord=привет, correctAnswersCount=1)
-Word(engWord=bye, rusWord=пока, correctAnswersCount=1)
-Word(engWord=pen, rusWord=ручка, correctAnswersCount=2)
-Word(engWord=dog, rusWord=собака, correctAnswersCount=1)
-Word(engWord=cat, rusWord=кошка, correctAnswersCount=2)
-Word(engWord=pen, rusWord=ручка, correctAnswersCount=2)
-Word(engWord=cat, rusWord=кошка, correctAnswersCount=2)
+hello, привет, количество повторений 1
+bye, пока, количество повторений 2
+pen, ручка, количество повторений 1
+dog, собака, количество повторений 1
+cat, кошка, количество повторений 1
+bye, пока, количество повторений 2
