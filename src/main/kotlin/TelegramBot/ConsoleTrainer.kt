@@ -16,15 +16,16 @@ fun main() {
         val word = Word(splitString[0].trim(), splitString[1].trim(), splitString[2].toInt())
         dictionary.add(word)
     }
-    println(
-        """
+
+    while (true) {
+        println(
+            """
             МЕНЮ:
         1 - Учить слова
         2 - Статистика
         0 - Выход 
     """.trimIndent()
-    )
-    while (true) {
+        )
         println("Выберите пункт меню")
         try {
             val userNumber = readln().toInt()
@@ -64,19 +65,7 @@ fun main() {
                                 2 -> checkUserAnswer(userChoice)
                                 3 -> checkUserAnswer(userChoice)
                                 4 -> checkUserAnswer(userChoice)
-                                0 -> {
-                                    println(
-                                        """
-            МЕНЮ:
-        1 - Учить слова
-        2 - Статистика
-        0 - Выход 
-    """.trimIndent()
-                                    )
-
-                                    break
-                                }
-
+                                0 -> break
                                 else -> println("неправильно ввели число")
                             }
                         } while (userNumber != 0)
@@ -96,6 +85,5 @@ fun main() {
         }
     }
 }
-
 
 data class Word(val engWord: String, val rusWord: String?, var correctAnswersCount: Int = 0)
