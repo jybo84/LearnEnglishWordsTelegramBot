@@ -1,5 +1,7 @@
-hello |привет |1
-dog |собака |1
-cat |кошка |2
-red |красный |2
-pen |ручка |5
+Word(engWord=hello, rusWord=привет, correctAnswersCount=1)
+Word(engWord=bye, rusWord=пока, correctAnswersCount=1)
+Word(engWord=pen, rusWord=ручка, correctAnswersCount=2)
+Word(engWord=dog, rusWord=собака, correctAnswersCount=1)
+Word(engWord=cat, rusWord=кошка, correctAnswersCount=2)
+Word(engWord=pen, rusWord=ручка, correctAnswersCount=2)
+Word(engWord=cat, rusWord=кошка, correctAnswersCount=2)

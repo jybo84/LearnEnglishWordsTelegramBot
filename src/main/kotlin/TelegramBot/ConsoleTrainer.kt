@@ -8,6 +8,12 @@ const val LIMIT = 3
 fun main() {
 
     val text = File("words.txt")
+    text.createNewFile()
+    text.writeText("hello |привет |1")
+    text.appendText("\nbye |пока |1")
+    text.appendText("\npen |ручка |1")
+    text.appendText("\ndog |собака |1")
+    text.appendText("\ncat |кошка |1")
 
     val dictionary = mutableListOf<Word>()
     val lines = text.readLines()
@@ -22,8 +28,8 @@ fun main() {
             """
             МЕНЮ:
         1 - Учить слова
-        2 - Статистика
-        0 - Выход 
+        2 - Статистика0
+        0 - Выход
     """.trimIndent()
         )
         println("Выберите пункт меню")
@@ -52,6 +58,18 @@ fun main() {
                                     println("ПРАВИЛЬНО")
                                     wordForUser.correctAnswersCount++
                                     dictionary.add(wordForUser)
+                                    //text.writeText(dictionary.toString())
+
+                                    File("words.txt").writeText(dictionary.joinToString("\n"))
+
+
+                                    /*
+                                   File("somefile.txt").writeText(history.entries.joinToString("\n") { "${it.key}, ${it.value}" })
+// or just use the toString() method without transform:
+                                    File("somefile.txt").writeText(x.entries.joinToString("\n"))
+    }
+    }
+                                     */
                                 } else println(
                                     "НЕ ВЕРНО.  " +
                                             "Вы выбрали ${(newListForUser[userChoice].rusWord)?.uppercase()} " +
@@ -84,6 +102,19 @@ fun main() {
             println("Введен неправильый формат числа")
         }
     }
-}
+    }
+
 
 data class Word(val engWord: String, val rusWord: String?, var correctAnswersCount: Int = 0)
+
+
+
+/*
+ val text = File("words.txt")
+    text.createNewFile()
+    text.writeText("hello |привет |1")
+    text.appendText("\nbye |пока |1")
+    text.appendText("\npen |ручка |1")
+    text.appendText("\ndog |собака |1")
+    text.appendText("\ncat |кошка |1")
+ */
