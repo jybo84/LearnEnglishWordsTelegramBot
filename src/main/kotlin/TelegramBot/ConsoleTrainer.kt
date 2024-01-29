@@ -45,21 +45,24 @@ fun main() {
                             println("0 - выйти в меню")
                             val userChoice = readln().toInt()
 
-                            fun checkUserAnswer(number: Int) {
-                                if (wordForUser == newListForUser[userNumber])
+                            fun checkUserAnswer(number: Int): List<Word> {
+                                if (wordForUser.rusWord == newListForUser[userChoice - 1].rusWord) {
                                     println("ПРАВИЛЬНО")
-                                else println(
+                                    wordForUser.correctAnswersCount++
+                                    dictionary.add(wordForUser)
+                                } else println(
                                     "НЕ ВЕРНО.  " +
-                                            "Вы выбрали ${(newListForUser[userNumber].rusWord)?.uppercase()} " +
+                                            "Вы выбрали ${(newListForUser[userChoice].rusWord)?.uppercase()} " +
                                             "Правильный ответ ${(wordForUser.rusWord)?.uppercase()}"
                                 )
+                                return dictionary
                             }
 
                             when (userChoice) {
-                                1 -> checkUserAnswer(userNumber)
-                                2 -> checkUserAnswer(userNumber)
-                                3 -> checkUserAnswer(userNumber)
-                                4 -> checkUserAnswer(userNumber)
+                                1 -> checkUserAnswer(userChoice)
+                                2 -> checkUserAnswer(userChoice)
+                                3 -> checkUserAnswer(userChoice)
+                                4 -> checkUserAnswer(userChoice)
                                 0 -> break
                                 else -> println("неправильно ввели число")
                             }
@@ -82,4 +85,4 @@ fun main() {
 }
 
 
-data class Word(val engWord: String, val rusWord: String?, val correctAnswersCount: Int = 0)
+data class Word(val engWord: String, val rusWord: String?, var correctAnswersCount: Int = 0)
