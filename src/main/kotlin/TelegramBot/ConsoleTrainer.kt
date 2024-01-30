@@ -4,7 +4,7 @@ package TelegramBot
 import java.io.File
 import kotlin.math.roundToInt
 
-const val LIMIT = 3
+const val LIMIT = 1
 const val MAX_LIST_WORD_FOR_USER = 4
 fun main() {
 
@@ -30,10 +30,9 @@ fun main() {
         )
         println("Выберите пункт меню")
         try {
-            val userNumber = readln().toInt()
-            when (userNumber) {
+            when (val userNumber = readln().toInt()) {
                 1 -> {
-                    val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT }
+                    val remainsWord = dictionary.filter { it.correctAnswersCount <= LIMIT }
 
                     if (remainsWord.isEmpty())
                         println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА")
@@ -54,8 +53,10 @@ fun main() {
                                 if (wordForUser.rusWord == newListForUser[userChoice - 1].rusWord) {
                                     println("\u001B[32mПРАВИЛЬНО\u001B[37m")
                                     wordForUser.correctAnswersCount++
+                                        if (wordForUser.correctAnswersCount > LIMIT)
+                                            newListForUser.remove(wordForUser)
 
-                                    text.writeText(dictionary.joinToString("\n"))
+                                        text.writeText(dictionary.joinToString("\n"))
 
                                 } else println(
                                     "\u001B[31mНЕ ВЕРНО.\u001B[37m  " +
