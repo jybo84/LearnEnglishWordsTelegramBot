@@ -10,6 +10,7 @@ fun main() {
 
     val text = File("words.txt")
     text.createNewFile()
+
     val dictionary = mutableListOf<Word>()
     val lines = text.readLines()
     for (el in lines) {
@@ -20,6 +21,7 @@ fun main() {
     while (true) {
         println(
             """
+                
             МЕНЮ:
         1 - Учить слова
         2 - Статистика
@@ -32,8 +34,9 @@ fun main() {
             when (userNumber) {
                 1 -> {
                     val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT }
+
                     if (remainsWord.isEmpty())
-                        println("Выучены все слова")
+                        println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА")
                     else {
                         do {
                             val newListForUser = remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER)
@@ -47,13 +50,14 @@ fun main() {
                             println("0 - выйти в меню")
                             val userChoice = readln().toInt()
 
+
                             fun checkUserAnswer(number: Int): List<Word> {
                                 if (wordForUser.rusWord == newListForUser[userChoice - 1].rusWord) {
                                     println("ПРАВИЛЬНО")
                                     wordForUser.correctAnswersCount++
-                                    dictionary.add(wordForUser)
 
-                                     File("words.txt").writeText(dictionary.joinToString("\n"))
+                                    //text.writeText(remainsWord.joinToString("\n"))
+                                    text.writeText(dictionary.joinToString("\n"))
 
                                 } else println(
                                     "НЕ ВЕРНО.  " +
@@ -91,6 +95,6 @@ fun main() {
 
 data class Word(val engWord: String, val rusWord: String?, var correctAnswersCount: Int = 0) {
     override fun toString(): String {
-        return "$engWord, $rusWord, количество повторений $correctAnswersCount"
+        return "$engWord |$rusWord |$correctAnswersCount"
     }
 }
