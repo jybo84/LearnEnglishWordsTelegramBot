@@ -52,13 +52,13 @@ fun main() {
 
                             fun checkUserAnswer(number: Int): List<Word> {
                                 if (wordForUser.rusWord == newListForUser[userChoice - 1].rusWord) {
-                                    println("ПРАВИЛЬНО")
+                                    println("\u001B[32mПРАВИЛЬНО\u001B[37m")
                                     wordForUser.correctAnswersCount++
 
                                     text.writeText(dictionary.joinToString("\n"))
 
                                 } else println(
-                                    "НЕ ВЕРНО.  " +
+                                    "\u001B[31mНЕ ВЕРНО.\u001B[37m  " +
                                             "Вы выбрали ${(newListForUser[userChoice].rusWord)?.uppercase()} " +
                                             "Правильный ответ ${(wordForUser.rusWord)?.uppercase()}"
                                 )
