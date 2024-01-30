@@ -56,7 +56,6 @@ fun main() {
                                     println("ПРАВИЛЬНО")
                                     wordForUser.correctAnswersCount++
 
-                                    //text.writeText(remainsWord.joinToString("\n"))
                                     text.writeText(dictionary.joinToString("\n"))
 
                                 } else println(
