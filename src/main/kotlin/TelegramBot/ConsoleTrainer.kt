@@ -33,7 +33,7 @@ fun main() {
             when (val userNumber = readln().toInt()) {
                 1 -> {
                     while (userNumber != 0) {
-                        val remainsWord = dictionary.filter { it.correctAnswersCount <= LIMIT }
+                        val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT }
                         if (remainsWord.isEmpty()) {
                             println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА")
                             break
