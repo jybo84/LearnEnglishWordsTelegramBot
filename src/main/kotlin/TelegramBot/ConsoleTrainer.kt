@@ -50,7 +50,6 @@ fun main() {
                             println("0 - выйти в меню")
                             val userChoice = readln().toInt()
 
-
                             fun checkUserAnswer(number: Int): List<Word> {
                                 if (wordForUser.rusWord == newListForUser[userChoice - 1].rusWord) {
                                     println("ПРАВИЛЬНО")
