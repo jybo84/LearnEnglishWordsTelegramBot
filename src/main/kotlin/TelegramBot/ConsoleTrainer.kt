@@ -32,14 +32,13 @@ fun main() {
         try {
             when (val userNumber = readln().toInt()) {
                 1 -> {
-                    val remainsWord = dictionary.filter { it.correctAnswersCount <= LIMIT }
-
-                    if (remainsWord.isEmpty())
-                        println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА")
-                    else {
-                        do {
+                    while (userNumber != 0) {
+                        val remainsWord = dictionary.filter { it.correctAnswersCount <= LIMIT }
+                        if (remainsWord.isEmpty()) {
+                            println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА")
+                            break
+                        } else {
                             val newListForUser = remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER)
-
                             val wordForUser = newListForUser.map { it }.random()
                             println()
                             println(wordForUser.engWord.uppercase())
@@ -53,10 +52,8 @@ fun main() {
                                 if (wordForUser.rusWord == newListForUser[userChoice - 1].rusWord) {
                                     println("\u001B[32mПРАВИЛЬНО\u001B[37m")
                                     wordForUser.correctAnswersCount++
-                                        if (wordForUser.correctAnswersCount > LIMIT)
-                                            newListForUser.remove(wordForUser)
 
-                                        text.writeText(dictionary.joinToString("\n"))
+                                    text.writeText(dictionary.joinToString("\n"))
 
                                 } else println(
                                     "\u001B[31mНЕ ВЕРНО.\u001B[37m  " +
@@ -74,7 +71,7 @@ fun main() {
                                 0 -> break
                                 else -> println("неправильно ввели число")
                             }
-                        } while (userNumber != 0)
+                        }
                     }
                 }
 
