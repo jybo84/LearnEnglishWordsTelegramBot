@@ -40,9 +40,16 @@ fun main() {
                         println("ВЫ ВЫУЧИЛИ ВСЕ  \n")
                         break
                     }
-                    val newListForUser = remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER)
+                    val newListForUser: MutableList<Word> =
+                        remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER).toMutableList()
+
                     val wordForUser = newListForUser.random()
 
+                    if (newListForUser.size < MAX_LIST_WORD_FOR_USER) {
+                        while (newListForUser.size != MAX_LIST_WORD_FOR_USER) {
+                            newListForUser.add(dictionary.random())
+                        }
+                    }
                     println(wordForUser.engWord.uppercase())
                     println("Выберите вариант ответа из списка: \n")
                     newListForUser.forEachIndexed { index, el -> println("${index + 1} - ${el.rusWord} ") }
@@ -53,14 +60,13 @@ fun main() {
                         in 1..MAX_LIST_WORD_FOR_USER -> {
                             val correctAnswerIndex = newListForUser.indexOf(wordForUser)
                             if (correctAnswerIndex + 1 == userChoice) {
-                                println("\u001B[32mПРАВИЛЬНО\u001B[37m")
+                                println("\u001B[32mПРАВИЛЬНО\u001B[39m")
                                 wordForUser.correctAnswersCount++
                                 saveDictionary(dictionary)
 
-
                             } else {
                                 println(
-                                    "\u001B[31mНЕ ВЕРНО.\u001B[37m  " +
+                                    "\u001B[31mНЕ ВЕРНО.\u001B[39m  " +
                                             "Вы выбрали ${
                                                 (userChoice?.minus(1)
                                                     ?.let { newListForUser[it] }?.rusWord)?.uppercase() ?: ""
@@ -79,10 +85,13 @@ fun main() {
 
             2 -> {
                 val learnWord = dictionary.filter { it.correctAnswersCount >= LIMIT_OF_LEARNED_WORD }.size
-                println("$learnWord из ${dictionary.size} | ${((learnWord.toFloat() / dictionary.size) * 100).roundToInt()}%")
+                println(
+                    "$learnWord из ${dictionary.size} | ${((learnWord.toFloat() / dictionary.size) * 100).roundToInt()}%"
+                )
             }
 
             0 -> break
+
             else -> println("Вы ввели некорректное значение")
         }
     }
