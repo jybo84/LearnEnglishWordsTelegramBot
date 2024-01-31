@@ -8,9 +8,9 @@ const val MAX_LIST_WORD_FOR_USER = 4
 
 fun main() {
 
-    val text = File("words.txt")
+    val dictionaryFile = File("words.txt")
     val dictionary = mutableListOf<Word>()
-    val lines = text.readLines()
+    val lines = dictionaryFile.readLines()
     for (line in lines) {
         val splitString = line.split("|")
         val word = Word(
