@@ -37,20 +37,21 @@ fun main() {
                 while (true) {
                     val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT_OF_LEARNED_WORD }
                     if (remainsWord.isEmpty()) {
-                        println("ВЫ ВЫУЧИЛИ ВСЕ  \n")
+                        println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА\n")
                         break
                     }
-                    val newListForUser: MutableList<Word> =
-                        remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER).toMutableList()
+                    var newListForUser =
+                        remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER)
 
                     val wordForUser = newListForUser.random()
 
-                    if (newListForUser.size < MAX_LIST_WORD_FOR_USER) {
-                        while (newListForUser.size != MAX_LIST_WORD_FOR_USER) {
-                            newListForUser.add(dictionary.random())
-                        }
+                    if (MAX_LIST_WORD_FOR_USER > newListForUser.size) {
+                        val tempList = mutableListOf<Word>()
+                        tempList.addAll(newListForUser)
+                        tempList.addAll(dictionary.take(MAX_LIST_WORD_FOR_USER - newListForUser.size))
+                        newListForUser = tempList.shuffled().take(MAX_LIST_WORD_FOR_USER)
                     }
-                    println(wordForUser.engWord.uppercase())
+                    println("\n${wordForUser.engWord.uppercase()}")
                     println("Выберите вариант ответа из списка: \n")
                     newListForUser.forEachIndexed { index, el -> println("${index + 1} - ${el.rusWord} ") }
 
@@ -66,7 +67,7 @@ fun main() {
 
                             } else {
                                 println(
-                                    "\u001B[31mНЕ ВЕРНО.\u001B[39m  " +
+                                    "\u001B[31mНЕ ВЕРНО\u001B[39m  " +
                                             "Вы выбрали ${
                                                 (userChoice?.minus(1)
                                                     ?.let { newListForUser[it] }?.rusWord)?.uppercase() ?: ""
