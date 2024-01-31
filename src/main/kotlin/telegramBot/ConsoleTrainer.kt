@@ -46,11 +46,13 @@ fun main() {
                     val wordForUser = newListForUser.random()
 
                     if (MAX_LIST_WORD_FOR_USER > newListForUser.size) {
-                        val tempList = mutableListOf<Word>()
-                        tempList.addAll(newListForUser)
-                        tempList.addAll(dictionary.take(MAX_LIST_WORD_FOR_USER - newListForUser.size))
-                        newListForUser = tempList.shuffled().take(MAX_LIST_WORD_FOR_USER)
+
+                        val learnedWords =
+                            dictionary.filter { it.correctAnswersCount >= LIMIT_OF_LEARNED_WORD }
+                        newListForUser =
+                            newListForUser + learnedWords.take(MAX_LIST_WORD_FOR_USER - newListForUser.size)
                     }
+
                     println("\n${wordForUser.engWord.uppercase()}")
                     println("Выберите вариант ответа из списка: \n")
                     newListForUser.forEachIndexed { index, el -> println("${index + 1} - ${el.rusWord} ") }
