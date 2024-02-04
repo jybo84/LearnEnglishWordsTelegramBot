@@ -22,11 +22,8 @@ fun main() {
         println("\nВыберите пункт меню \n")
         when (readln().toIntOrNull()) {
 
-            1 -> {
-                while (true) {
-                    val question2 = Question()
-                    question2.getNextQuestion()
-                }
+            1 -> while (true) {
+                trainer.getNextQuestion()
             }
 
             2 -> trainer.getStatistic()
@@ -46,7 +43,7 @@ data class Word(
 
 class LearnWordTrainer() {
 
-    val dictionary = loadDictionary()
+    private val dictionary = loadDictionary()
 
     private fun loadDictionary(): List<Word> {
         val dictionaryFile = File("words.txt")
@@ -64,7 +61,7 @@ class LearnWordTrainer() {
         return dictionary
     }
 
-    fun saveDictionary(dictionary: List<Word>) {
+    private fun saveDictionary(dictionary: List<Word>) {
         val dictionaryFile = File("words.txt")
         dictionaryFile.writeText("")
         dictionary.forEach { dictionaryFile.appendText("${it.engWord}|${it.rusWord}|${it.correctAnswersCount}\n") }
@@ -76,31 +73,22 @@ class LearnWordTrainer() {
             "$learnWord из ${dictionary.size} | ${((learnWord.toFloat() / dictionary.size) * 100).roundToInt()}%"
         )
     }
-}
-
-class Question() {
-    private val question = LearnWordTrainer()
 
     fun getNextQuestion() {
         while (true) {
-            val remainsWord = question.dictionary.filter { it.correctAnswersCount < LIMIT_OF_LEARNED_WORD }
+            val remainsWord = dictionary.filter { it.correctAnswersCount < LIMIT_OF_LEARNED_WORD }
             if (remainsWord.isEmpty()) {
                 println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА\n")
                 break
             }
-            var newListForUser =
-                remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER)
-
+            var newListForUser = remainsWord.shuffled().take(MAX_LIST_WORD_FOR_USER)
             val wordForUser = newListForUser.random()
 
             if (MAX_LIST_WORD_FOR_USER > newListForUser.size) {
-
-                val learnedWords =
-                    question.dictionary.filter { it.correctAnswersCount >= LIMIT_OF_LEARNED_WORD }
+                val learnedWords =  dictionary.filter { it.correctAnswersCount >= LIMIT_OF_LEARNED_WORD }
                 newListForUser =
                     newListForUser + learnedWords.shuffled().take(MAX_LIST_WORD_FOR_USER - newListForUser.size)
             }
-
             println("\n${wordForUser.engWord.uppercase()}")
             println("Выберите вариант ответа из списка: \n")
             newListForUser.forEachIndexed { index, el -> println("${index + 1} - ${el.rusWord} ") }
@@ -113,8 +101,7 @@ class Question() {
                     if (correctAnswerIndex + 1 == userChoice) {
                         println("\u001B[32mПРАВИЛЬНО\u001B[39m")
                         wordForUser.correctAnswersCount++
-                        question.saveDictionary(question.dictionary)
-
+                        saveDictionary(dictionary)
                     } else {
                         println(
                             "\u001B[31mНЕ ВЕРНО\u001B[39m  " +
