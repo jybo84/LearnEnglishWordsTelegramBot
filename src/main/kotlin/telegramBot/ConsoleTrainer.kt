@@ -85,7 +85,7 @@ class LearnWordTrainer() {
             val wordForUser = newListForUser.random()
 
             if (MAX_LIST_WORD_FOR_USER > newListForUser.size) {
-                val learnedWords =  dictionary.filter { it.correctAnswersCount >= LIMIT_OF_LEARNED_WORD }
+                val learnedWords = dictionary.filter { it.correctAnswersCount >= LIMIT_OF_LEARNED_WORD }
                 newListForUser =
                     newListForUser + learnedWords.shuffled().take(MAX_LIST_WORD_FOR_USER - newListForUser.size)
             }
@@ -104,12 +104,9 @@ class LearnWordTrainer() {
                         saveDictionary(dictionary)
                     } else {
                         println(
-                            "\u001B[31mНЕ ВЕРНО\u001B[39m  " +
-                                    "Вы выбрали ${
-                                        (userChoice?.minus(1)
-                                            ?.let { newListForUser[it] }?.rusWord)?.uppercase() ?: ""
-                                    } " +
-                                    "Правильный ответ ${(wordForUser.rusWord).uppercase()}"
+                            "\u001B[31mНЕ ВЕРНО\u001B[39m  Вы выбрали ${
+                                (userChoice?.minus(1)?.let { newListForUser[it] }?.rusWord)?.uppercase() ?: ""
+                            }  Правильный ответ ${(wordForUser.rusWord).uppercase()}"
                         )
                     }
                 }
