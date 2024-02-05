@@ -16,6 +16,7 @@ fun main() {
             МЕНЮ:
         1 - Учить слова
         2 - Статистика
+        
         0 - Выход
     """.trimIndent()
         )
@@ -33,6 +34,7 @@ fun main() {
                     println("Выберите вариант ответа из списка: \n")
                     question.newListForUser.forEachIndexed { index, el -> println("${index + 1} - ${el.rusWord} ") }
                     println("\n0 - выйти в меню")
+
                     when (val userChoice = readln().toIntOrNull()) {
                         in 1..MAX_LIST_WORD_FOR_USER -> trainer.checkUserChoice(userChoice)
 
@@ -119,22 +121,23 @@ class LearnWordTrainer() {
     }
 
     fun checkUserChoice(userChoice: Int?) {
-        val trainer2 = LearnWordTrainer()
-        val question2 = trainer2.getNextQuestion()
-        val correctAnswerIndex = question2?.newListForUser?.indexOf(question2.wordForUser)
-        if (correctAnswerIndex != null) {
-            if (correctAnswerIndex + 1 == userChoice) {
-                println("\u001B[32mПРАВИЛЬНО\u001B[39m")
 
-                question2.wordForUser.correctAnswersCount++
-                trainer2.saveDictionary(trainer2.dictionary)
-            } else {
-                println(
-                    "\u001B[31mНЕ ВЕРНО\u001B[39m  Вы выбрали ${
-                        (userChoice?.minus(1)
-                            ?.let { question2.newListForUser[it] }?.rusWord)?.uppercase() ?: ""
-                    }  Правильный ответ ${(question2.wordForUser.rusWord).uppercase()}"
-                )
+        val correctAnswerIndex = question?.newListForUser?.indexOf(question.wordForUser)
+        if (correctAnswerIndex != null) {
+            if (userChoice != null) {
+                if (correctAnswerIndex +1 == userChoice) {  // TODO+1
+                    println("\u001B[32mПРАВИЛЬНО\u001B[39m")
+
+                    question.wordForUser.correctAnswersCount++
+                    trainer.saveDictionary(trainer.dictionary)
+                } else {
+                    println(
+                        "\u001B[31mНЕ ВЕРНО\u001B[39m  Вы выбрали ${
+                            (userChoice?.minus(1)
+                                ?.let { question.newListForUser[it] }?.rusWord)?.uppercase() ?: ""
+                        }  Правильный ответ ${(question.wordForUser.rusWord).uppercase()}"
+                    )
+                }
             }
         }
     }
