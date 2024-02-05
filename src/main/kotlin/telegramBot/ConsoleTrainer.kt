@@ -121,11 +121,12 @@ class LearnWordTrainer() {
     }
 
     fun checkUserChoice(userChoice: Int?) {
-
+        val trainer = LearnWordTrainer()
+        val question = trainer.getNextQuestion()
         val correctAnswerIndex = question?.newListForUser?.indexOf(question.wordForUser)
         if (correctAnswerIndex != null) {
             if (userChoice != null) {
-                if (correctAnswerIndex +1 == userChoice) {  // TODO+1
+                if (correctAnswerIndex - 1 == userChoice) {  // TODO+1
                     println("\u001B[32mПРАВИЛЬНО\u001B[39m")
 
                     question.wordForUser.correctAnswersCount++
@@ -133,8 +134,8 @@ class LearnWordTrainer() {
                 } else {
                     println(
                         "\u001B[31mНЕ ВЕРНО\u001B[39m  Вы выбрали ${
-                            (userChoice?.minus(1)
-                                ?.let { question.newListForUser[it] }?.rusWord)?.uppercase() ?: ""
+                            (userChoice.minus(1)
+                                .let { question.newListForUser[it] }.rusWord).uppercase() ?: ""
                         }  Правильный ответ ${(question.wordForUser.rusWord).uppercase()}"
                     )
                 }
