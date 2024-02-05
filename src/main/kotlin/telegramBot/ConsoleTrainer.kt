@@ -119,21 +119,21 @@ class LearnWordTrainer() {
     }
 
     fun checkUserChoice(userChoice: Int?) {
-        val question2 = LearnWordTrainer()
-        val zzz = question2.getNextQuestion()
-        val correctAnswerIndex = zzz?.newListForUser?.indexOf(zzz.wordForUser)
+        val trainer2 = LearnWordTrainer()
+        val question2 = trainer2.getNextQuestion()
+        val correctAnswerIndex = question2?.newListForUser?.indexOf(question2.wordForUser)
         if (correctAnswerIndex != null) {
             if (correctAnswerIndex + 1 == userChoice) {
                 println("\u001B[32mПРАВИЛЬНО\u001B[39m")
 
-                zzz.wordForUser.correctAnswersCount++
-                question2.saveDictionary(question2.dictionary)
+                question2.wordForUser.correctAnswersCount++
+                trainer2.saveDictionary(trainer2.dictionary)
             } else {
                 println(
                     "\u001B[31mНЕ ВЕРНО\u001B[39m  Вы выбрали ${
                         (userChoice?.minus(1)
-                            ?.let { zzz.newListForUser[it] }?.rusWord)?.uppercase() ?: ""
-                    }  Правильный ответ ${(zzz.wordForUser.rusWord).uppercase()}"
+                            ?.let { question2.newListForUser[it] }?.rusWord)?.uppercase() ?: ""
+                    }  Правильный ответ ${(question2.wordForUser.rusWord).uppercase()}"
                 )
             }
         }
