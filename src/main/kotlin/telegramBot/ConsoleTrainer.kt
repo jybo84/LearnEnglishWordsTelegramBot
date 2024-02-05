@@ -36,7 +36,7 @@ fun main() {
                     println("\n0 - выйти в меню")
 
                     when (val userChoice = readln().toIntOrNull()) {
-                        in 1..MAX_LIST_WORD_FOR_USER -> trainer.checkUserChoice(userChoice)
+                        in 1..MAX_LIST_WORD_FOR_USER -> trainer.checkUserChoice(userChoice, trainer)
 
                         0 -> break
 
@@ -47,6 +47,8 @@ fun main() {
                     println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА\n")
                     break
                 }
+
+
             }
 
             2 -> trainer.getStatistic()
@@ -120,23 +122,22 @@ class LearnWordTrainer() {
         )
     }
 
-    fun checkUserChoice(userChoice: Int?) {
-        val trainer = LearnWordTrainer()
-        val question = trainer.getNextQuestion()
-        val correctAnswerIndex = question?.newListForUser?.indexOf(question.wordForUser)
+    fun checkUserChoice(userChoice: Int?, trainer: LearnWordTrainer) {
+        val correctAnswerIndex =
+            trainer.getNextQuestion()?.newListForUser?.indexOf(trainer.getNextQuestion()!!.wordForUser)
         if (correctAnswerIndex != null) {
             if (userChoice != null) {
-                if (correctAnswerIndex - 1 == userChoice) {  // TODO+1
+                if (correctAnswerIndex - 1 == userChoice) {  //
                     println("\u001B[32mПРАВИЛЬНО\u001B[39m")
 
-                    question.wordForUser.correctAnswersCount++
+                    trainer.getNextQuestion()!!.wordForUser.correctAnswersCount++
                     trainer.saveDictionary(trainer.dictionary)
                 } else {
                     println(
                         "\u001B[31mНЕ ВЕРНО\u001B[39m  Вы выбрали ${
                             (userChoice.minus(1)
-                                .let { question.newListForUser[it] }.rusWord).uppercase() ?: ""
-                        }  Правильный ответ ${(question.wordForUser.rusWord).uppercase()}"
+                                .let { trainer.getNextQuestion()!!.newListForUser[it] }.rusWord).uppercase() ?: "" //TODO так тоже ошибка
+                        }  Правильный ответ ${(trainer.getNextQuestion()!!.wordForUser.rusWord).uppercase()}"
                     )
                 }
             }
