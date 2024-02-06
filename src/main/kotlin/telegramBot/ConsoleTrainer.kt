@@ -3,10 +3,25 @@ package telegramBot
 const val LIMIT_OF_LEARNED_WORD = 1
 const val MAX_LIST_WORD_FOR_USER = 4
 
+data class Word(
+    val engWord: String,
+    val rusWord: String,
+    var correctAnswersCount: Int = 0,
+)
+
+fun Question.asConsoleString(): String{
+    val variants = this.variants
+        .mapIndexed{index: Int, word: Word -> "${index + 1} - ${word.rusWord}"}
+        .joinToString("\n")
+    return this.correctAnswer.engWord + "\n" + variants + "0 - выйти в меню"
+
+}
+
 fun main() {
     val trainer = LearnWordTrainer()
 
     while (true) {
+
         println(
             """
 
@@ -21,40 +36,34 @@ fun main() {
         when (readln().toIntOrNull()) {
 
             1 -> while (true) {
-                val question = trainer.lastQuestion()
-                if (question != null) {
-                    if (MAX_LIST_WORD_FOR_USER > question.variants.size) {
-                        question.variants += question.learnedWords.shuffled()
-                            .take(MAX_LIST_WORD_FOR_USER - question.variants.size)
-                    }
-                    println("\n${question.correctAnswer.engWord.uppercase()}")
-                    println("Выберите вариант ответа из списка: \n")
-                    question.variants.forEachIndexed { index, el -> println("${index + 1} - ${el.rusWord} ") }
-                    println("\n0 - выйти в меню")
-
-                    when (val userChoice = readln().toIntOrNull()) {
-                        in 1..MAX_LIST_WORD_FOR_USER -> trainer.checkUserChoice(userChoice)
-
-                        0 -> break
-
-                        else -> println("неправильно ввели число")
-                    }
-                }
+                val question = trainer.getNextQuestion()
                 if (question == null) {
                     println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА\n")
                     break
+                } else {
+                    println(question.asConsoleString())
+
+                    val userAnswerInput = readln().toIntOrNull()
+                    if (userAnswerInput == 0) break
+
+                    if (trainer.checkAnswer(userAnswerInput?.minus(1))) {
+                        println("Правильно")
+                    } else {
+                        println("Неправильно! ${question.correctAnswer.engWord} - это ${question.correctAnswer}") // TODO
+                    }
                 }
-
-
             }
 
-            2 -> trainer.getStatistic()
-                println()                    // TODO здесь вывести
-
+            2 -> {
+                val statistic = trainer.getStatistic()
+                println("Выучено ${statistic.learned} из ${statistic.total} слов | ${statistic.percent}")
+            }
             0 -> break
 
             else -> println("Вы ввели некорректное значение")
         }
     }
 }
+
+
 
