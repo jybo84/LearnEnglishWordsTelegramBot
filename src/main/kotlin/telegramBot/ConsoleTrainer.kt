@@ -27,13 +27,15 @@ fun main() {
         2 - Статистика
         
         0 - Выход
+        
+        Выберите пункт меню
     """.trimIndent()
         )
-        println("\nВыберите пункт меню \n")
+
         when (readln().toIntOrNull()) {
 
             1 -> while (true) {
-                val question = trainer.getNextQuestion()
+                val question = trainer.getNextQuestion()  //TODO
                 if (question == null) {
                     println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА\n")
                     break

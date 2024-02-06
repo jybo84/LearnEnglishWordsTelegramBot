@@ -2,8 +2,8 @@ package telegramBot
 
 import java.io.File
 
-const val LIMIT_OF_LEARNED_WORD = 1
 const val MAX_LIST_WORD_FOR_USER = 4
+const val LIMIT_OF_LEARNED_WORD = 1
 
 data class Statistic(
     val learned: Int,
@@ -22,14 +22,15 @@ class LearnWordTrainer() {
     private val dictionary = loadDictionary()
 
     fun getStatistic(): Statistic {
-        val learned = dictionary.filter { it.correctAnswersCount >= LIMIT_OF_LEARNED_WORD }.size //TODO1645
+        val learned = dictionary.filter { it.correctAnswersCount >= MAX_LIST_WORD_FOR_USER }.size
         val total = dictionary.size
         val percent = learned * 100 / total
         return Statistic(learned, total, percent)
+
     }
 
     fun getNextQuestion(): Question? {
-        val notLearnedList = dictionary.filter { it.correctAnswersCount < MAX_LIST_WORD_FOR_USER }//TODO1603
+        val notLearnedList = dictionary.filter { it.correctAnswersCount < LIMIT_OF_LEARNED_WORD }
         if (notLearnedList.isEmpty()) return null
         val questionWords = notLearnedList.take(4).shuffled()
         val correctAnswer = questionWords.random()
