@@ -6,16 +6,20 @@ data class Word(
     var correctAnswersCount: Int = 0,
 )
 
-fun Question.asConsoleString(): String{
+fun Question.asConsoleString(): String {
     val variants = this.variants
-        .mapIndexed{index: Int, word: Word -> "${index + 1} - ${word.rusWord}"}
+        .mapIndexed { index: Int, word: Word -> "${index + 1} - ${word.rusWord}" }
         .joinToString("\n")
     return this.correctAnswer.engWord + "\n" + variants + "\n0 - выйти в меню"
-
 }
 
 fun main() {
-    val trainer = LearnWordTrainer()
+    val trainer = try {
+        LearnWordTrainer(3, 4)
+    } catch (e: Exception) {
+        println("невозможно загрузить словарь")
+        return
+    }
 
     while (true) {
 
@@ -35,7 +39,7 @@ fun main() {
         when (readln().toIntOrNull()) {
 
             1 -> while (true) {
-                val question = trainer.getNextQuestion()  //TODO
+                val question = trainer.getNextQuestion()
                 if (question == null) {
                     println("ВЫ ВЫУЧИЛИ ВСЕ СЛОВА\n")
                     break
@@ -57,6 +61,7 @@ fun main() {
                 val statistic = trainer.getStatistic()
                 println("Выучено ${statistic.learned} из ${statistic.total} слов | ${statistic.percent}")
             }
+
             0 -> break
 
             else -> println("Вы ввели некорректное значение")

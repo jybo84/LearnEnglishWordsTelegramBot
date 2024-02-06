@@ -2,9 +2,6 @@ package telegramBot
 
 import java.io.File
 
-const val MAX_LIST_WORD_FOR_USER = 4
-const val LIMIT_OF_LEARNED_WORD = 1
-
 data class Statistic(
     val learned: Int,
     val total: Int,
@@ -16,23 +13,32 @@ data class Question(
     val correctAnswer: Word,
 )
 
-class LearnWordTrainer() {
+class LearnWordTrainer(
+    private val leanedAnswerCount: Int = 1,
+    private val countOfQuestionWords: Int = 4
+) {
 
     private var lastQuestion: Question? = null
     private val dictionary = loadDictionary()
 
     fun getStatistic(): Statistic {
-        val learned = dictionary.filter { it.correctAnswersCount >= MAX_LIST_WORD_FOR_USER }.size
+        val learned = dictionary.filter { it.correctAnswersCount >= leanedAnswerCount }.size
         val total = dictionary.size
         val percent = learned * 100 / total
         return Statistic(learned, total, percent)
-
     }
 
     fun getNextQuestion(): Question? {
-        val notLearnedList = dictionary.filter { it.correctAnswersCount < LIMIT_OF_LEARNED_WORD }
+        val notLearnedList = dictionary.filter { it.correctAnswersCount < leanedAnswerCount }
         if (notLearnedList.isEmpty()) return null
-        val questionWords = notLearnedList.take(4).shuffled()
+        val questionWords = if (notLearnedList.size < countOfQuestionWords) {
+            val learnedList = dictionary.filter { it.correctAnswersCount >= leanedAnswerCount }.shuffled()
+            notLearnedList.shuffled()
+                .take(countOfQuestionWords) + learnedList.take(countOfQuestionWords - notLearnedList.size)
+        } else {
+            notLearnedList.shuffled().take(countOfQuestionWords)
+        }.shuffled()
+
         val correctAnswer = questionWords.random()
 
         lastQuestion = Question(
@@ -56,19 +62,17 @@ class LearnWordTrainer() {
     }
 
     private fun loadDictionary(): List<Word> {
-        val dictionaryFile = File("words.txt")
-        val dictionary = mutableListOf<Word>()
-        val lines = dictionaryFile.readLines()
-        for (line in lines) {
-            val splitString = line.split("|")
-            val word = Word(
-                engWord = splitString[0].trim(),
-                rusWord = splitString[1].trim(),
-                splitString[2].toIntOrNull() ?: 0
-            )
-            dictionary.add(word)
+        try {
+            val dictionary = mutableListOf<Word>()
+            val dictionaryFile = File("words.txt")
+            dictionaryFile.readLines().forEach {
+                val splitString = it.split("|")
+                dictionary.add(Word(splitString[0], splitString[1], splitString[2].toIntOrNull() ?: 0))
+            }
+            return dictionary
+        } catch (e: IndexOutOfBoundsException) {
+            throw IllegalStateException("некорректный файл")
         }
-        return dictionary
     }
 
     private fun saveDictionary(dictionary: List<Word>) {
