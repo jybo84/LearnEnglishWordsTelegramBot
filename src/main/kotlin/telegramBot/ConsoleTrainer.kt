@@ -1,8 +1,5 @@
 package telegramBot
 
-const val LIMIT_OF_LEARNED_WORD = 1
-const val MAX_LIST_WORD_FOR_USER = 4
-
 data class Word(
     val engWord: String,
     val rusWord: String,
@@ -13,7 +10,7 @@ fun Question.asConsoleString(): String{
     val variants = this.variants
         .mapIndexed{index: Int, word: Word -> "${index + 1} - ${word.rusWord}"}
         .joinToString("\n")
-    return this.correctAnswer.engWord + "\n" + variants + "0 - выйти в меню"
+    return this.correctAnswer.engWord + "\n" + variants + "\n0 - выйти в меню"
 
 }
 
@@ -49,7 +46,7 @@ fun main() {
                     if (trainer.checkAnswer(userAnswerInput?.minus(1))) {
                         println("Правильно")
                     } else {
-                        println("Неправильно! ${question.correctAnswer.engWord} - это ${question.correctAnswer}") // TODO
+                        println("Неправильно! ${question.correctAnswer.engWord} - это ${question.correctAnswer.rusWord}")
                     }
                 }
             }
