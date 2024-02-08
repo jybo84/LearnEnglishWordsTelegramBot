@@ -22,7 +22,6 @@ fun main(args: Array<String>) {
         println(updateIdString)
         updateId = updateIdString.toInt() + 1
     }
-
 }
 
 fun getUpdates(botToken: String, updateId: Int): String {
