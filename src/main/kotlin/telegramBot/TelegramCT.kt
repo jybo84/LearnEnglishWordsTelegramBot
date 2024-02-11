@@ -7,27 +7,28 @@ import java.net.http.HttpResponse
 
 fun main(args: Array<String>) {
 
-
     val botToken = args[0]
     var updateId = 0
 
     while (true) {
         Thread.sleep(2000)
         val updates: String = getUpdates(botToken, updateId)
-        println(updates)
-
         val startUpdateId = updates.lastIndexOf("update_id")
         val endUpdateId = updates.lastIndexOf(",\n\"message\"")
         if (startUpdateId == -1 || endUpdateId == -1) continue
         val updateIdString = updates.substring(startUpdateId + 11, endUpdateId)
-       // println(updateIdString)
+
         updateId = updateIdString.toInt() + 1
 
-        val messageTextRegex = "\"text\":\"(.+?)\"".toRegex()
-        val matchResult: MatchResult? = messageTextRegex.find(updates)
-        val groups = matchResult?.groups
-        val text = groups?.get(1)?.value
-        println(text)
+        val idRegex = Regex("\\d{10}")
+        val matchResultId: MatchResult? = idRegex.find(updates)
+        val groupsId = matchResultId?.groups
+        val chatId = groupsId?.get(0)?.value
+        if (chatId != null) {
+            println("massegeID: $chatId")
+        }
+
+        sendMessage(updates, chatId)
     }
 }
 
@@ -38,5 +39,13 @@ fun getUpdates(botToken: String, updateId: Int): String {
     val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
     return response.body()
+}
+
+fun sendMessage(updates: String, chatId: String?) {
+    val messageTextRegex = "\"text\":\"(.+?)\"".toRegex()
+    val matchResult: MatchResult? = messageTextRegex.find(updates)
+    val groups = matchResult?.groups
+    val text = groups?.get(1)?.value
+    println(text)
 }
 
