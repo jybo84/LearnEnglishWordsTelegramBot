@@ -5,7 +5,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-class TelegramBotService(){
+class TelegramBotService() {
 
     fun getUpdates(botToken: String, updateId: Int): String {
         val urlGetUpdates = "https://api.telegram.org/bot$botToken/getUpdates?offset=$updateId"

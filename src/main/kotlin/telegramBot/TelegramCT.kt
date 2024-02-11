@@ -7,6 +7,7 @@ fun main(args: Array<String>) {
     var updateId = 0
 
     while (true) {
+
         Thread.sleep(2000)
         val updates: String = service.getUpdates(botToken, updateId)
         val startUpdateId = updates.lastIndexOf("update_id")
