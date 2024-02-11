@@ -1,35 +1,30 @@
 package telegramBot
 
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
-
 fun main(args: Array<String>) {
 
+    val service = TelegramBotService()
     val botToken = args[0]
     var updateId = 0
 
     while (true) {
-        Thread.sleep(2000)
-        val updates: String = getUpdates(botToken, updateId)
-        println(updates)
 
+        Thread.sleep(2000)
+        val updates: String = service.getUpdates(botToken, updateId)
         val startUpdateId = updates.lastIndexOf("update_id")
         val endUpdateId = updates.lastIndexOf(",\n\"message\"")
         if (startUpdateId == -1 || endUpdateId == -1) continue
         val updateIdString = updates.substring(startUpdateId + 11, endUpdateId)
-        println(updateIdString)
+
         updateId = updateIdString.toInt() + 1
+
+        val idRegex = Regex("\\d{10}")
+        val matchResultId: MatchResult? = idRegex.find(updates)
+        val groupsId = matchResultId?.groups
+        val chatId = groupsId?.get(0)?.value
+        if (chatId != null) {
+            println("massageID: $chatId ${service.sendMessage(updates, chatId)}")
+        }
     }
 }
 
-fun getUpdates(botToken: String, updateId: Int): String {
-    val urlGetUpdates = "https://api.telegram.org/bot$botToken/getUpdates?offset=$updateId"
-    val client = HttpClient.newBuilder().build()
-    val request = HttpRequest.newBuilder().uri(URI.create(urlGetUpdates)).build()
-    val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-
-    return response.body()
-}
 
